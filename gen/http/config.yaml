@@ -1,0 +1,7 @@
+package: http
+generate:
+  models: true
+  client: true
+  gin-server: true
+  strict-server: true
+output: gen.go

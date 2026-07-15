@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Wallet API
+  version: 1.0.0
+paths:
+  /api/v1/wallet:
+    post:
+      operationId: transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionInput'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/wallets/{id}:
+    get:
+      operationId: get_balance
+      description: Баланс для представления. Не для критического функционала. (Кэшированный)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    TransactionInput:
+      type: object
+      required:
+        - walletId
+        - operationType
+        - amount
+      properties:
+        walletId:
+          type: string
+          format: uuid
+        operationType:
+          type: string
+          enum:
+            - DEPOSIT
+            - WITHDRAW
+        amount:
+          type: integer
+          format: int64
+          minimum: 1
